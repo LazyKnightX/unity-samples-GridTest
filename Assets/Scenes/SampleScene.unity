@@ -243,7 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d54cf770dfccfce40a3712471bafa7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellSize: 10
+  cellSize: 5
   worldSize: {x: 200, y: 200}
   showGridGizmos: 1
   gizmoRange: 50
@@ -370,6 +370,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1095885445}
+  - component: {fileID: 1095885446}
   m_Layer: 0
   m_Name: Enemies
   m_TagString: Untagged
@@ -392,6 +393,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1095885446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095885444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9f240839bd7b147b324e43991df66a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 6283659106245445352, guid: 53b62a3fa57ca4b4bbfaf6052a7b6e9e, type: 3}
+  enemyCount: 10000
+  usePooling: 1
+  minDistanceBetweenEnemies: 1.5
+  spawnArea: {x: 200, y: 200}
+  poolInitialSize: 100
+  poolMaxSize: 200000
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
