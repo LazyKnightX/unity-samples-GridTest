@@ -665,7 +665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b9f240839bd7b147b324e43991df66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyCount: 2000
+  enemyCount: 10000
   rectBounds: {fileID: 120296826}
 --- !u!1 &1622157684
 GameObject:
