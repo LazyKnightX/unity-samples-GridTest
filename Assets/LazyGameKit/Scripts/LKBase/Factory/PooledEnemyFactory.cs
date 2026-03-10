@@ -10,27 +10,28 @@ namespace LazyGameKit.Base.Factory
         {
             get
             {
-                _Instance ??= new PooledEnemyFactory(prefab);
+                _Instance ??= new PooledEnemyFactory();
                 return _Instance;
             }
         }
         private static PooledEnemyFactory _Instance;
 
         private readonly ObjectPool<EnemyPoolable> _pool;
-        private readonly GameObject _prefab;  // 敌人预制体
 
         public int ActiveCount => _pool.CountActive;
 
-        public PooledEnemyFactory(GameObject prefab)
+        private IPrefabProvider _enemyPrefabProvider;
+
+        private PooledEnemyFactory()
         {
-            _prefab = prefab;
             _pool = PoolManager.Instance.GetEnemyPool();
+            _enemyPrefabProvider = EnemyPrefabProvider.Instance;
         }
 
         public EnemyPoolable CreatePooled()
         {
             // create enemy
-            var go = Object.Instantiate(_prefab);
+            var go = Object.Instantiate(_enemyPrefabProvider.Get());
 
             // pool state
             var poolable = go.GetComponent<EnemyPoolable>();

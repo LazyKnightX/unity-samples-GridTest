@@ -11,7 +11,6 @@ namespace LazyGameKit.Game
     public class EnemySpawner : MonoBehaviour
     {
         [Header("Generation Setting")]
-        public GameObject enemyPrefab;
         public int enemyCount = 1000;
         public bool usePooling = true;
 
@@ -20,14 +19,6 @@ namespace LazyGameKit.Game
 
         private void Start()
         {
-            if (enemyPrefab == null)
-            {
-                Debug.LogError("[EnemySpawner] enemyPrefab 未赋值！");
-                return;
-            }
-
-            enemyPrefab.tag = "Enemy";
-
             if (usePooling)
             {
                 StartCoroutine(SpawnWithPooling());
@@ -48,7 +39,6 @@ namespace LazyGameKit.Game
 
                 Vector3 pos = rectBounds.GetValidPosition();
                 var pooled = pool.Get();
-                // pooled.gameObject.hideFlags = HideFlags.HideInHierarchy;
 
                 pooled.transform.position = pos;
                 pooled.OnSpawned(pos);
@@ -69,7 +59,6 @@ namespace LazyGameKit.Game
 
                 Vector3 pos = rectBounds.GetValidPosition();
                 GameObject enemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
-                // enemy.hideFlags = HideFlags.HideInHierarchy;
 
                 if (enemy.GetComponent<EnemyIndexer>() == null)
                     enemy.AddComponent<EnemyIndexer>();
