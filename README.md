@@ -1,6 +1,6 @@
 # Grid Test (WIP)
 
-**Unity: 2022f3**
+**Unity: 2022.3**
 
 
 
@@ -31,5 +31,8 @@ Goto `GridManager.QueryNearby` to explore more.
 
 ### Test Setup
 
-clone repo & open it using Unity 2022f3.
+clone repo & open it using Unity 2022.3.
 
+### How to use
+
+Spawn using 

@@ -4,25 +4,26 @@ using System.Collections;
 using LazyGameKit.Core;
 using LazyGameKit.Base.Pool;
 using LazyGameKit.Base.Grid;
+using LazyGameKit.Base.SpawnBounds;
 
 namespace LazyGameKit.Game
 {
 
     public class EnemySpawner : MonoBehaviour
     {
-        [Header("Generation Settings")]
+        [Header("Generation Setting")]
         public GameObject enemyPrefab;
         public int enemyCount = 1000;
         public bool usePooling = true;
-        public float minDistanceBetweenEnemies = 1.5f;
-        public Vector2 spawnArea = new Vector2(200f, 200f);
 
-        [Header("Pooling Settings")]
+        [Header("Pooling Setting")]
         [SerializeField] private int poolInitialSize = 100;
         [SerializeField] private int poolMaxSize = 200000;
 
         private ObjectPool<EnemyPoolable> pool;
-        private Bounds spawnBounds;
+
+        [Header("RectBounds Setting")]
+        [SerializeField] private RectBounds rectBounds;
 
         private void Start()
         {
@@ -34,8 +35,6 @@ namespace LazyGameKit.Game
 
             enemyPrefab.tag = "Enemy";
 
-            spawnBounds = new Bounds(Vector3.zero, new Vector3(spawnArea.x, spawnArea.y, 0.1f));
-
             if (usePooling)
             {
                 InitializePool();
@@ -45,6 +44,11 @@ namespace LazyGameKit.Game
             {
                 StartCoroutine(SpawnWithoutPooling());
             }
+        }
+
+        private void OnDestroy()
+        {
+            if (pool != null) pool.Clear();
         }
 
         private void InitializePool()
@@ -78,16 +82,14 @@ namespace LazyGameKit.Game
             {
                 if (i % 2000 == 0 && i > 0) yield return null;
 
-                Vector3 pos = GetValidSpawnPosition();
+                Vector3 pos = rectBounds.GetValidPosition();
                 var pooled = pool.Get();
                 // pooled.gameObject.hideFlags = HideFlags.HideInHierarchy;
 
                 pooled.transform.position = pos;
                 pooled.OnSpawned(pos);
 
-                var indexer = pooled.GetComponent<EnemyIndexer>();
-                if (indexer != null)
-                {
+                if (TryGetComponent<EnemyIndexer>(out var indexer)) {
                     GridManager.Instance.Add(indexer);
                 }
             }
@@ -101,7 +103,7 @@ namespace LazyGameKit.Game
             {
                 if (i % 1000 == 0 && i > 0) yield return null;
 
-                Vector3 pos = GetValidSpawnPosition();
+                Vector3 pos = rectBounds.GetValidPosition();
                 GameObject enemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
                 // enemy.hideFlags = HideFlags.HideInHierarchy;
 
@@ -110,34 +112,6 @@ namespace LazyGameKit.Game
             }
 
             Debug.Log($"[EnemySpawner] 普通 Instantiate 生成 {enemyCount} 个敌人完成");
-        }
-
-        private Vector3 GetValidSpawnPosition()
-        {
-            Vector3 pos;
-            int attempts = 0;
-            const int maxAttempts = 30;
-
-            do
-            {
-                pos = spawnBounds.RandomPointInBounds();
-                pos.z = 0f;
-
-                attempts++;
-                if (attempts > maxAttempts)
-                {
-                    Debug.LogWarning("[EnemySpawner] 位置生成尝试超过上限，可能敌人密度过高，使用最后一个位置");
-                    break;
-                }
-            }
-            while (Physics.CheckSphere(pos, minDistanceBetweenEnemies, LayerMask.GetMask("Default")));
-
-            return pos;
-        }
-
-        private void OnDestroy()
-        {
-            if (pool != null) pool.Clear();
         }
     }
 
