@@ -1,6 +1,7 @@
 using UnityEngine;
 using LazyGameKit.Base.Pool;
 using LazyGameKit.Base.Grid;
+using LazyGameKit.Base.PrefabProvider;
 
 namespace LazyGameKit.Base.Factory
 {

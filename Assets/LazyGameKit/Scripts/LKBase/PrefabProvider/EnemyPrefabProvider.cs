@@ -1,27 +1,30 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-class EnemyPrefabProvider : MonoBehaviour, IPrefabProvider
+namespace LazyGameKit.Base.PrefabProvider
 {
-    private static EnemyPrefabProvider _Instance;
-    public static EnemyPrefabProvider Instance
+    class EnemyPrefabProvider : MonoBehaviour, IPrefabProvider
     {
-        get
+        private static EnemyPrefabProvider _Instance;
+        public static EnemyPrefabProvider Instance
         {
-            return _Instance;
+            get
+            {
+                return _Instance;
+            }
         }
-    }
 
-    [SerializeField] private List<GameObject> prefabs = new();
+        [SerializeField] private List<GameObject> prefabs = new();
 
-    void Awake()
-    {
-        _Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
+        void Awake()
+        {
+            _Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
-    public GameObject Get()
-    {
-        return prefabs[Random.Range(0, prefabs.Count - 1)];
+        public GameObject Get()
+        {
+            return prefabs[Random.Range(0, prefabs.Count - 1)];
+        }
     }
 }

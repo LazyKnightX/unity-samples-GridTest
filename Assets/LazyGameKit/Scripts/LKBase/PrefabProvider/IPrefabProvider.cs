@@ -1,6 +1,9 @@
 using UnityEngine;
 
-interface IPrefabProvider
+namespace LazyGameKit.Base.PrefabProvider
 {
-    GameObject Get();
+    interface IPrefabProvider
+    {
+        GameObject Get();
+    }
 }
