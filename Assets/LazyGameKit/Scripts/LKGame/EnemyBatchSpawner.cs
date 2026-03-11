@@ -6,7 +6,7 @@ using LazyGameKit.Base.SpawnBounds;
 
 namespace LazyGameKit.Game
 {
-    public class EnemySpawner : MonoBehaviour
+    public class EnemyBatchSpawner : MonoBehaviour
     {
         [Header("Generation Setting")]
         public int enemyCount = 1000;
@@ -39,7 +39,7 @@ namespace LazyGameKit.Game
                 SpawnSingle();
             }
 
-            Debug.Log($"[EnemySpawner] 生成 {enemyCount} 个敌人完成");
+            Debug.Log($"[EnemyBatchSpawner] 生成 {enemyCount} 个敌人完成");
         }
     }
 
